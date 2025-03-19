@@ -27,14 +27,14 @@ The project involves training an AI model to classify and categorize real estate
 - Evaluating and deploying the model for real-world use.
 
 ## Data Collection
-Data is collected from real estate platforms such as Zillow, OLX, and Imóveis Web. The data includes:
+Data is collected from real estate platforms such as OLX, and Imóveis Web. The data includes:
 
 - **Text Data:** Property descriptions, titles, and metadata.
 - **Image Data:** Photos of properties (e.g., interiors, exteriors, landscapes).
 
 Tools used for data collection:
 
-- Web scraping libraries: `BeautifulSoup`, `Scrapy`, `Selenium`.
+- Web scraping libraries: `Scrapy`, `Selenium`.
 - APIs provided by real estate platforms (if available).
 
 ## Data Preprocessing

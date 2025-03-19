@@ -13,8 +13,9 @@ Prerequisites
 Initial Setup
 ------------
 1. Clone the repository
-2. Install dependencies: `make requirements`
-3. Set up environment variables if needed
+2. Create a virtual environment with `venv` or `conda`
+3. Install dependencies: `make requirements`
+4. Set up environment variables if needed0
 
 Data Setup
 ----------

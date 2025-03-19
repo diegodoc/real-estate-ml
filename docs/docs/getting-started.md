@@ -5,17 +5,32 @@ This guide will help you set up and run the Real Estate ML project from a clean 
 
 Prerequisites
 ------------
-- Python 3.10
-- pip (Python package manager)
-- Make (build automation tool)
+- Anaconda or Miniconda (recommended)
 - Git
+- Make (build automation tool)
 
 Initial Setup
 ------------
-1. Clone the repository
-2. Create a virtual environment with `venv` or `conda`
-3. Install dependencies: `make requirements`
-4. Set up environment variables if needed0
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd real-estate-ml
+   ```
+
+2. Create and activate Conda environment:
+   ```bash
+   make create_environment
+   conda activate real-estate-ml
+   ```
+
+3. Install Python dependencies:
+   ```bash
+   make requirements
+   ```
+
+4. Set up environment variables if needed:
+   - Copy `.env.example` to `.env`
+   - Edit `.env` with your configuration
 
 Data Setup
 ----------
@@ -39,34 +54,27 @@ Data Setup
    make data
    ```
 
-Running the Pipeline
-------------------
-Run these commands in sequence:
+Development
+----------
+- Format code:
+  ```bash
+  make format
+  ```
 
-1. Process the dataset:
-   ```bash
-   make data
-   ```
+- Check code style:
+  ```bash
+  make lint
+  ```
 
-2. Generate features:
-   ```bash
-   python real_estate_ml/features.py
-   ```
+- Clean compiled Python files:
+  ```bash
+  make clean
+  ```
 
-3. Train the model:
-   ```bash
-   python real_estate_ml/modeling/train.py
-   ```
-
-4. Generate predictions:
-   ```bash
-   python real_estate_ml/modeling/predict.py
-   ```
-
-5. Create visualizations:
-   ```bash
-   python real_estate_ml/plots.py
-   ```
+- Update conda environment:
+  ```bash
+  make update_environment
+  ```
 
 Documentation
 ------------
@@ -74,4 +82,11 @@ To view the documentation locally:
 ```bash
 mkdocs serve
 ```
+Then visit http://127.0.0.1:8000 in your browser.
+
+Available Commands
+----------------
+View all available make commands:
+```bash
+make help
 Then visit http://127.0.0.1:8000 in your browser.

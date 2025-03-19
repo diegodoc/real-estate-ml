@@ -1,0 +1,24 @@
+name: real-estate-ml
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pandas
+  - numpy
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - jupyter
+  - pip:
+    - loguru
+    - mkdocs
+    - python-dotenv
+    - ruff
+    - tqdm
+    - typer
+    - yellowbrick
+    - sweetviz
+    - scrapy
+    - -e .

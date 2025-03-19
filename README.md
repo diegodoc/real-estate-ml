@@ -98,3 +98,37 @@ Contributions are welcome! If you'd like to contribute, please follow these step
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Setup with Anaconda
+
+1. Install Anaconda or Miniconda from https://docs.conda.io/en/latest/miniconda.html
+
+2. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd real-estate-ml
+   ```
+
+3. Create and activate the conda environment:
+   ```bash
+   make create_environment
+   conda activate real-estate-ml
+   ```
+
+4. Install Python dependencies:
+   ```bash
+   make requirements
+   ```
+
+## Development Commands
+
+- Format code: `make format`
+- Check code style: `make lint`
+- Clean compiled files: `make clean`
+- Update environment: `make update_environment`
+- Process dataset: `make data`
+
+View all available commands:
+```bash
+make help
+```

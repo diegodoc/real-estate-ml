@@ -3,9 +3,9 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "titanic_ml"
+name = "real_estate_ml"
 version = "0.0.1"
-description = "Titanic survivor prediction with Machine Learning"
+description = "Real Estate classification and categorization using Machine Learning"
 authors = [
   { name = "diegodoc" },
 ]
@@ -20,13 +20,13 @@ requires-python = "~=3.10"
 
 [tool.ruff]
 line-length = 99
-src = ["titanic_ml"]
-include = ["pyproject.toml", "titanic_ml/**/*.py"]
+src = ["real_estate_ml"]
+include = ["pyproject.toml", "real_estate_ml/**/*.py"]
 
 [tool.ruff.lint]
 extend-select = ["I"]  # Add import sorting
 
 [tool.ruff.lint.isort]
-known-first-party = ["titanic_ml"]
+known-first-party = ["real_estate_ml"]
 force-sort-within-sections = true
 

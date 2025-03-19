@@ -1,25 +1,23 @@
 # Data Processing
 
-This document outlines the steps taken to process the raw Titanic dataset.
+This document outlines the steps taken to process the real estate dataset.
 
 ## Data Acquisition
-The Titanic dataset is obtained from [source] and stored in the `data/raw/` directory.
+The real estate dataset is collected from various sources and stored in the `data/raw/` directory.
 
 ## Data Cleaning
 The following cleaning steps are performed:
-- Handling missing values in Age, Cabin, and Embarked columns
+- Handling missing values in property features
 - Converting categorical variables to numerical format
-- Feature engineering (e.g., extracting titles from names)
+- Standardizing price formats and currencies
+- Normalizing area measurements
+- Cleaning and standardizing location data
 
 ## Feature Engineering
 New features created include:
-- Family size (combining siblings/spouses and parents/children)
-- Age groups
-- Fare categories
-- Title extraction from passenger names
-
-## Data Transformation
-The processed dataset is stored in `data/processed/` and includes:
-- Normalized numerical features
-- One-hot encoded categorical features
-- Train/test split for model evaluation
+- Price per square meter/foot
+- Property age (from year built)
+- Location-based features (neighborhood scores, proximity to amenities)
+- Text features from descriptions (keyword extraction, sentiment analysis)
+- Image features (architectural style, condition assessment)
+- Amenity counts and categories

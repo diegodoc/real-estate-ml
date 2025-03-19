@@ -2,7 +2,7 @@
 # GLOBALS                                                                       #
 #################################################################################
 
-PROJECT_NAME = titanic-ml
+PROJECT_NAME = real-estate-ml
 PYTHON_VERSION = 3.10
 PYTHON_INTERPRETER = python
 

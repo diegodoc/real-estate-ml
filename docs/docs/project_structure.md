@@ -4,7 +4,7 @@ This project follows the [Cookiecutter Data Science](https://cookiecutter-data-s
 
 ## Directory Structure
 - `data/` - Data files separated into raw, processed, interim, and external
-- `titanic_ml/` - Source code package
+- `real_estate_ml/` - Source code package
 - `notebooks/` - Jupyter notebooks for exploration
 - `models/` - Trained model files
 - `reports/` - Generated analysis reports and figures
@@ -15,10 +15,13 @@ This project follows the [Cookiecutter Data Science](https://cookiecutter-data-s
 - `features.py` - Feature engineering functions
 - `modeling/` - Model training and prediction
 - `plots.py` - Visualization utilities
+- `config.py` - Configuration and path settings
+- `utils/` - Helper functions and utilities
 
-## Workflow
-1. Process raw data with `dataset.py`
-2. Engineer features with `features.py`
-3. Train models with `modeling/train.py`
-4. Generate predictions with `modeling/predict.py`
+## Data Pipeline
+1. Raw data collection (`data/raw/`)
+2. Initial processing (`dataset.py`)
+3. Feature engineering (`features.py`)
+4. Model training (`modeling/train.py`)
+5. Predictions (`modeling/predict.py`)
 5. Visualize results with `plots.py`

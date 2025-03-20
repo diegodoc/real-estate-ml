@@ -7,7 +7,47 @@ PYTHON_VERSION = 3.10
 PYTHON_INTERPRETER = python
 
 #################################################################################
-# COMMANDS                                                                      #
+# DATA COLLECTION COMMANDS                                                      #
+#################################################################################
+
+## Collect data from OLX
+.PHONY: scrape-olx
+scrape-olx:
+	$(PYTHON_INTERPRETER) -m real_estate_ml.scraping.collectors.olx_collector
+
+## Collect data from ZAP
+.PHONY: scrape-zap
+scrape-zap:
+	$(PYTHON_INTERPRETER) -m real_estate_ml.scraping.collectors.zap_collector
+
+## Collect data from all sources
+.PHONY: scrape-all
+scrape-all: scrape-olx scrape-zap
+
+#################################################################################
+# DATA PROCESSING COMMANDS                                                     #
+#################################################################################
+
+## Process OLX raw data
+.PHONY: process-olx
+process-olx:
+	$(PYTHON_INTERPRETER) scripts/process_raw_data.py --source olx
+
+## Process ZAP raw data
+.PHONY: process-zap
+process-zap:
+	$(PYTHON_INTERPRETER) scripts/process_raw_data.py --source zap
+
+## Process all raw data
+.PHONY: process-all
+process-all: process-olx process-zap
+
+## Collect and process all data
+.PHONY: data-pipeline
+data-pipeline: scrape-all process-all
+
+#################################################################################
+# DEVELOPMENT COMMANDS                                                         #
 #################################################################################
 
 ## Create conda environment

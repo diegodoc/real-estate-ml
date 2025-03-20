@@ -1,3 +1,4 @@
+from datetime import datetime
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -6,15 +7,21 @@ from loguru import logger
 # Load environment variables from .env file if it exists
 load_dotenv()
 
-# Paths
+# Get project root directory
 PROJ_ROOT = Path(__file__).resolve().parents[1]
-logger.info(f"PROJ_ROOT path is: {PROJ_ROOT}")
 
+# Define data directories
 DATA_DIR = PROJ_ROOT / "data"
 RAW_DATA_DIR = DATA_DIR / "raw"
-INTERIM_DATA_DIR = DATA_DIR / "interim"
 PROCESSED_DATA_DIR = DATA_DIR / "processed"
-EXTERNAL_DATA_DIR = DATA_DIR / "external"
+
+# Get current date for organizing processed data
+CURRENT_DATE = datetime.now().strftime("%Y%m%d")
+
+# Define source-specific directories
+def get_processed_dir(source: str) -> Path:
+    """Get the processed directory for a specific source and date"""
+    return PROCESSED_DATA_DIR / source / CURRENT_DATE
 
 MODELS_DIR = PROJ_ROOT / "models"
 

@@ -11,15 +11,17 @@ from loguru import logger
 
 
 class OlxApiCollector:
-    def __init__(self, output_dir="data/raw/olx"):
-        self.output_dir = Path(os.path.join("c:/Users/Diego/Documents/Projetos/Python/real-estate-ml/real-estate-ml", output_dir))
+    def __init__(self):
+        # Create timestamped output directory
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.output_dir = Path("data/raw/olx") / timestamp / "listings"
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        
+        self.lurker_id = str(uuid.uuid4())
+        self.processed_listings = set()
         
         # Base API URL
         self.api_base_url = "https://apigw.olx.com.br/api/v2/rec"
-        
-        # Generate a random UUID for lurker_id
-        self.lurker_id = str(uuid.uuid4())
         
         # Regions in Pernambuco
         self.regions = {
@@ -32,9 +34,6 @@ class OlxApiCollector:
         self.categories = {
             "aluguel": "1020"
         }
-        
-        # Track processed listings
-        self.processed_listings = set()
         
         # Add headers as a class attribute
         self.headers = {
@@ -104,7 +103,6 @@ class OlxApiCollector:
             with open(filepath, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
             
-            logger.info(f"Saved API response to: {filepath}")
             return filepath
         except Exception as e:
             logger.error(f"Error saving API response: {e}")

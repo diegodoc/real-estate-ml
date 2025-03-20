@@ -21,7 +21,6 @@ dependencies:
     - yellowbrick
     - sweetviz
     - scrapy
-    - selenium
-    - webdriver-manager
-    - scrapy-selenium
+    - curl_cffi
     - -e .
+

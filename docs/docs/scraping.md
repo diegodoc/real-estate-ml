@@ -5,20 +5,37 @@ This document outlines how to use and configure the web scraping functionality i
 ## Current Scraping Flow
 
 ### 1. Data Collection
-#### Spider (`olx_spider.py`):
-- Starts from initial URL (start_urls)
-- Collects individual listing links from listing pages
-- For each listing, makes a request and extracts:
+#### OLX API Collector (`olx_api_collector.py`):
+- Uses `curl_cffi` for making requests to OLX's API
+- Collects property listing data including:
   - Title
   - Description
   - Price
   - Location
-  - Image URLs
-- Follows pagination to next pages
+  - Additional property details
+- Handles rate limiting and mimics browser behavior
+- Saves responses as JSON files
 
-#### Pipeline (`pipelines.py`):
-- Processes collected data (e.g., cleaning price field)
-- Saves to JSON file (`data/raw/olx_data.json`)
+### Dependencies
+The scraping functionality requires:
+- curl_cffi: For making HTTP requests that bypass anti-bot measures
+- loguru: For logging
+- Other standard libraries (datetime, json, pathlib, etc.)
+
+### Installation
+```bash
+pip install curl_cffi
+```
+
+### Usage
+Run the collector using:
+```bash
+make scrape
+```
+or directly:
+```bash
+python -m real_estate_ml.scraping.olx_api_collector
+```
 
 ### 2. Data Structure
 The collected data follows this structure:

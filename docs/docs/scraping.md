@@ -14,28 +14,37 @@ This document outlines how to use and configure the web scraping functionality i
   - Location
   - Additional property details
 - Handles rate limiting and mimics browser behavior
-- Saves responses as JSON files
+- Saves responses as JSON files in `data/raw/olx/YYYYMMDD_HHMMSS/listings/`
 
 ### Dependencies
 The scraping functionality requires:
 - curl_cffi: For making HTTP requests that bypass anti-bot measures
 - loguru: For logging
+- pyarrow: For Parquet file support
 - Other standard libraries (datetime, json, pathlib, etc.)
-
-### Installation
-```bash
-pip install curl_cffi
-```
 
 ### Usage
 Run the collector using:
 ```bash
-make scrape
+make scrape-olx
 ```
-or directly:
-```bash
-python -m real_estate_ml.scraping.olx_api_collector
-```
+
+### Data Flow
+1. **Collection**: Raw data is saved in:
+   ```
+   data/raw/olx/YYYYMMDD_HHMMSS/listings/*.json
+   ```
+
+2. **Processing**: Process the raw data using:
+   ```bash
+   make process-olx
+   ```
+   This creates processed files in:
+   ```
+   data/processed/olx/YYYYMMDD/
+   ├── listings.parquet  # Optimized for ML pipelines
+   └── listings.csv      # Easy to view and analyze
+   ```
 
 ### 2. Data Structure
 The collected data follows this structure:

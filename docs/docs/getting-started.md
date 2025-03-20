@@ -54,6 +54,53 @@ Data Setup
    make data
    ```
 
+## Data Collection and Processing
+
+### 1. Collecting OLX Listing IDs
+Before running the scraper, you need to manually collect some listing IDs:
+
+1. Go to OLX's real estate section: https://www.olx.com.br/imoveis
+2. Open any property listing that interests you
+3. In the URL, locate the 10-digit listing ID. For example:
+   ```
+   https://www.olx.com.br/d/imoveis/apartamento-exemplo-1387432094
+                                                       └─── ID ───┘
+   ```
+4. Open `real_estate_ml/scraping/collectors/olx_collector.py`
+5. Update the `listing_ids` list with your collected IDs:
+   ```python
+   listing_ids = [
+       "1387432094",  # Your first listing ID
+       "1367766557",  # Another listing ID
+       # Add more IDs...
+   ]
+   ```
+
+### 2. Running the Scraper
+After collecting listing IDs:
+
+1. Collect data from OLX:
+   ```bash
+   make scrape-olx
+   ```
+   This will save raw data in `data/raw/olx/YYYYMMDD_HHMMSS/listings/`
+
+2. Process the collected data:
+   ```bash
+   make process-olx
+   ```
+   This creates processed files in `data/processed/olx/YYYYMMDD/`
+
+3. View the processed data:
+   - Use `listings.csv` for quick data inspection
+   - Use `listings.parquet` for ML pipelines
+
+### Tips
+- Collect IDs from different neighborhoods to get a diverse dataset
+- The scraper will automatically collect related listings from each ID you provide
+- Avoid collecting too many IDs at once to prevent rate limiting
+- Space out your collection runs to avoid detection
+
 Development
 ----------
 - Format code:

@@ -1,12 +1,14 @@
-import json
-import time
-import random
-import os
-import uuid
-from pathlib import Path
 from datetime import datetime
+import json
+import os
+from pathlib import Path
+import random
+import time
+import uuid
+
 from curl_cffi import requests as cureq
 from loguru import logger
+
 
 class OlxApiCollector:
     def __init__(self, output_dir="data/raw/olx"):
@@ -33,6 +35,15 @@ class OlxApiCollector:
         
         # Track processed listings
         self.processed_listings = set()
+        
+        # Add headers as a class attribute
+        self.headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+            'Origin': 'https://www.olx.com.br',
+            'Referer': 'https://www.olx.com.br/',
+        }
         
         logger.info("OLX API Collector initialized")
     
@@ -164,44 +175,66 @@ class OlxApiCollector:
             logger.error(f"Error extracting listings: {e}")
             return []
     
-    def collect_listings(self, seed_list_id="1387432094", max_listings=50):
-        """Collect listings starting from a seed listing ID"""
+    def get_search_results(self, page=1, state="pe", region_id="81"):
+        """Get paginated search results"""
+        try:
+            # Search API endpoint
+            search_url = "https://apigw.olx.com.br/v2/listings"
+            
+            # Search parameters
+            params = {
+                "offset": (page - 1) * 50,  # 50 items per page
+                "limit": 50,
+                "sf": 1,  # Sort by most recent
+                "sf_ur": 0,
+                "region_id": region_id,
+                "state": state,
+                "category_id": "1020",  # Real estate category
+            }
+            
+            # Make the request
+            response = cureq.get(
+                search_url,
+                params=params,
+                headers=self.headers,
+                impersonate="chrome110"
+            )
+            
+            if response.status_code == 200:
+                data = response.json()
+                total_pages = data.get("total_count", 0) // 50 + 1
+                logger.info(f"Got page {page}/{total_pages} of search results")
+                return data.get("listings", []), total_pages
+            else:
+                logger.error(f"Search API request failed: {response.status_code}")
+                return [], 0
+                
+        except Exception as e:
+            logger.error(f"Error getting search results: {e}")
+            return [], 0
+    
+    def collect_listings_from_urls(self, listing_ids):
+        """Collect listings from a list of manually provided listing IDs"""
         try:
             collected_count = 0
-            current_list_id = seed_list_id
             
-            while collected_count < max_listings:
-                # Get API response for current listing ID
-                response_data = self.get_api_response(current_list_id)
-                
-                if not response_data:
-                    logger.warning(f"No data received for listing ID: {current_list_id}")
-                    break
-                
-                # Save the API response
-                self.save_api_response(response_data, current_list_id)
-                
-                # Extract new listings from the response
-                new_listings = self.extract_listings_from_response(response_data)
-                
-                if not new_listings:
-                    logger.warning("No new listings found in response")
-                    break
-                
-                collected_count += 1
-                
-                # Use the last listing ID as the next seed
-                current_list_id = new_listings[-1]["list_id"]
-                
-                # Add a random delay between requests
-                delay = random.uniform(2, 5)
-                logger.info(f"Waiting {delay:.1f} seconds before next request")
-                time.sleep(delay)
-                
-                # Log progress
-                logger.info(f"Collected {collected_count}/{max_listings} listings")
+            for list_id in listing_ids:
+                if list_id not in self.processed_listings:
+                    # Get recommendations for this listing
+                    response_data = self.get_api_response(list_id)
+                    
+                    if response_data:
+                        self.save_api_response(response_data, list_id)
+                        
+                        # Extract and process listings from response
+                        new_listings = self.extract_listings_from_response(response_data)
+                        collected_count += len(new_listings)
+                    
+                    # Add a random delay between requests
+                    delay = random.uniform(2, 5)
+                    time.sleep(delay)
             
-            logger.info(f"Data collection completed. Total listings: {collected_count}")
+            logger.info(f"Data collection completed. Total listings processed: {collected_count}")
             
         except Exception as e:
             logger.error(f"Error during data collection: {e}")
@@ -210,6 +243,81 @@ if __name__ == "__main__":
     # Configure logger
     logger.add("c:/Users/Diego/Documents/Projetos/Python/real-estate-ml/real-estate-ml/logs/olx_collector_{time}.log")
     
+    
+    # List of manually collected listing IDs
+    listing_ids = [
+        "1387432094",  # Example listing ID
+        "1367766557", 
+        "1359633911",
+        "1361278216",
+        "1388094485",
+        "1388094441",
+        "1347778773",
+        "1388083361",
+        "1388085740",
+        "1388084424",
+        "1388077714",
+        "1388076547",
+        "1388075073",
+        "1388074892",
+        "1388073444",
+        "1388073442",
+        "1388073004",
+        "1388072631",
+        "1388072634",
+        "1388071210",
+        "1388070592",
+        "1388070947",
+        "1388065611",
+        "1386097750",
+        "1388072634",
+        "1388070947",
+        "1388070592",
+        "1387655158",
+        "1387351167",
+        "1387870189",
+        "1386465326",
+        "1386271030",
+        "1387344472",
+        "1388061645",
+        "1388059814",
+        "1388058538",
+        "1388058539",
+        "1360035880",
+        "1387432094",
+        "1386303652",
+        "1387978206",
+        "1388058539",
+        "1388058230",
+        "1388058164",
+        "1388058135",
+        "1388058132",
+        "1388058058",
+        "1377268092",
+        "1388054300",
+        "1388053807",
+        "1388053521",
+        "1354407372",
+        "1388051289",
+        "1388051291",
+        "1388051239",
+        "1388051224",
+        "1386388042",
+        "1388050487",
+        "1388050351",
+        "1388050231",
+        "1388049609",
+        "1388049546",
+        "1388049314",
+        "1388049290",
+        "1388049186",
+        "1388049146",
+        "1378029650",
+        "1366637826",
+        "1386288551",
+        "1381286386",
+    ]
+    
     # Run the collector
     collector = OlxApiCollector()
-    collector.collect_listings(max_listings=20)
+    collector.collect_listings_from_urls(listing_ids)

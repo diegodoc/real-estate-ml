@@ -49,6 +49,11 @@ format:
 data: requirements
 	$(PYTHON_INTERPRETER) real_estate_ml/dataset.py
 
+## Collect data from OLX API
+.PHONY: scrape
+scrape:
+	$(PYTHON_INTERPRETER) -m real_estate_ml.scraping.olx_api_collector
+
 #################################################################################
 # Self Documenting Commands                                                     #
 #################################################################################

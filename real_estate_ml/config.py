@@ -18,10 +18,12 @@ PROCESSED_DATA_DIR = DATA_DIR / "processed"
 # Get current date for organizing processed data
 CURRENT_DATE = datetime.now().strftime("%Y%m%d")
 
+
 # Define source-specific directories
 def get_processed_dir(source: str) -> Path:
     """Get the processed directory for a specific source and date"""
     return PROCESSED_DATA_DIR / source / CURRENT_DATE
+
 
 MODELS_DIR = PROJ_ROOT / "models"
 

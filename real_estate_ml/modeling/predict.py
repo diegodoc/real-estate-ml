@@ -1,10 +1,9 @@
 from pathlib import Path
 
 from loguru import logger
+from titanic_ml.config import MODELS_DIR, PROCESSED_DATA_DIR
 from tqdm import tqdm
 import typer
-
-from titanic_ml.config import MODELS_DIR, PROCESSED_DATA_DIR
 
 app = typer.Typer()
 

@@ -1,60 +1,55 @@
 # Web Scraping Guide
 
-This document outlines how to use and configure the web scraping functionality in the project.
+## Supported Platforms
 
-## Current Scraping Flow
+### 1. OLX
+- Uses OLX's API to collect property listings
+- Saves raw data in JSON format
+- See [OLX Data Collection](#olx-data-collection) for details
 
-### 1. Data Collection
-#### OLX API Collector (`olx_api_collector.py`):
-- Uses `curl_cffi` for making requests to OLX's API
-- Collects property listing data including:
-  - Title
-  - Description
-  - Price
-  - Location
-  - Additional property details
-- Handles rate limiting and mimics browser behavior
-- Saves responses as JSON files in `data/raw/olx/YYYYMMDD_HHMMSS/listings/`
+### 2. ZAP Imóveis
+- Uses ZAP's API to collect property listings
+- Saves raw data in JSON format
+- See [ZAP Data Collection](#zap-data-collection) for details
 
-### Dependencies
-The scraping functionality requires:
-- curl_cffi: For making HTTP requests that bypass anti-bot measures
-- loguru: For logging
-- pyarrow: For Parquet file support
-- Other standard libraries (datetime, json, pathlib, etc.)
+## Data Collection
 
-### Usage
-Run the collector using:
+### OLX Data Collection
+[Previous OLX documentation remains the same...]
+
+### ZAP Data Collection
+#### Setup
+1. Go to ZAP Imóveis website: https://www.zapimoveis.com.br/
+2. Navigate to a property listing
+3. Copy the listing ID from the URL (format varies)
+4. Add the ID to the `listing_ids` list in `zap_collector.py`
+
+#### Usage
+Run the collector:
 ```bash
-make scrape-olx
+make scrape-zap
 ```
 
-### Data Flow
-1. **Collection**: Raw data is saved in:
-   ```
-   data/raw/olx/YYYYMMDD_HHMMSS/listings/*.json
-   ```
+Process the collected data:
+```bash
+make process-zap
+```
 
-2. **Processing**: Process the raw data using:
-   ```bash
-   make process-olx
-   ```
-   This creates processed files in:
-   ```
-   data/processed/olx/YYYYMMDD/
-   ├── listings.parquet  # Optimized for ML pipelines
-   └── listings.csv      # Easy to view and analyze
-   ```
-
-### 2. Data Structure
+#### Data Structure
 The collected data follows this structure:
 ```json
 {
-    "title": "House for sale downtown",
-    "description": "House with 3 bedrooms, 2 bathrooms...",
+    "id": "123456789",
+    "title": "Apartment for sale",
     "price": 500000.0,
-    "location": "São Paulo, SP",
-    "image_urls": ["http://example.com/image1.jpg", "http://example.com/image2.jpg"]
+    "address": {
+        "neighborhood": "Boa Viagem",
+        "city": "Recife",
+        "state": "PE"
+    },
+    "usableArea": 120,
+    "bedrooms": 3,
+    "bathrooms": 2
 }
 ```
 

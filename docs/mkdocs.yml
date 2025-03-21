@@ -1,2 +1,15 @@
 site_name: Real Estate Classification Model Project
 site_author: Diego de Oliveira Clemente
+
+nav:
+    - Home: index.md
+    - Getting Started: getting-started.md
+    - Project Structure: project_structure.md
+    - Data:
+        - Data Processing: data_processing.md
+        - Feature Description: data_processing.md#dataset-features-description
+    - Modeling: modeling.md
+    - Usage: usage.md
+    - Development:
+        - Commit Patterns: commit-patterns.md
+        - Scraping Guide: scraping.md

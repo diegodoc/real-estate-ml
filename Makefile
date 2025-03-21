@@ -9,42 +9,43 @@ PYTHON_INTERPRETER = python
 #################################################################################
 # DATA COLLECTION COMMANDS                                                      #
 #################################################################################
-
+#
 ## Collect data from OLX
-.PHONY: scrape-olx
-scrape-olx:
-	$(PYTHON_INTERPRETER) -m real_estate_ml.scraping.collectors.olx_collector
+#.PHONY: scrape-olx
+#scrape-olx:
+#	$(PYTHON_INTERPRETER) -m real_estate_ml.scraping.collectors.olx_collector
 
 ## Collect data from ZAP
-.PHONY: scrape-zap
-scrape-zap:
-	$(PYTHON_INTERPRETER) -m real_estate_ml.scraping.collectors.zap_collector
+#.PHONY: scrape-zap
+#scrape-zap:
+#	$(PYTHON_INTERPRETER) -m real_estate_ml.scraping.collectors.zap_collector
 
 ## Collect data from all sources
-.PHONY: scrape-all
-scrape-all: scrape-olx scrape-zap
+#.PHONY: scrape-all
+#scrape-all: scrape-olx scrape-zap
 
 #################################################################################
 # DATA PROCESSING COMMANDS                                                     #
 #################################################################################
 
-## Process OLX raw data
-.PHONY: process-olx
-process-olx:
-	$(PYTHON_INTERPRETER) scripts/process_raw_data.py --source olx
+## Process dataset
+.PHONY: data
+data:
+    $(PYTHON_INTERPRETER) real_estate_ml/dataset.py
 
-## Process ZAP raw data
-.PHONY: process-zap
-process-zap:
-	$(PYTHON_INTERPRETER) scripts/process_raw_data.py --source zap
+## Train model
+.PHONY: train
+train:
+    $(PYTHON_INTERPRETER) real_estate_ml/modeling/train.py
 
-## Process all raw data
-.PHONY: process-all
-process-all: process-olx process-zap
+## Generate predictions
+.PHONY: predict
+predict:
+    $(PYTHON_INTERPRETER) real_estate_ml/modeling/predict.py
 
-## Collect and process all data
-.PHONY: data-pipeline
-data-pipeline: scrape-all process-all
+## Run complete pipeline
+.PHONY: pipeline
+pipeline: data train predict
 
 #################################################################################
 # DEVELOPMENT COMMANDS                                                         #

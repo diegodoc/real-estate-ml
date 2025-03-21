@@ -15,4 +15,5 @@ yellowbrick
 sweetviz
 scrapy
 curl_cffi
+ydata-profiling
 -e .

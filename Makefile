@@ -31,21 +31,26 @@ PYTHON_INTERPRETER = python
 ## Process dataset
 .PHONY: data
 data:
-    $(PYTHON_INTERPRETER) real_estate_ml/dataset.py
+	$(PYTHON_INTERPRETER) real_estate_ml/dataset.py
 
 ## Train model
 .PHONY: train
 train:
-    $(PYTHON_INTERPRETER) real_estate_ml/modeling/train.py
+	$(PYTHON_INTERPRETER) real_estate_ml/modeling/train.py
 
 ## Generate predictions
 .PHONY: predict
 predict:
-    $(PYTHON_INTERPRETER) real_estate_ml/modeling/predict.py
+	$(PYTHON_INTERPRETER) real_estate_ml/modeling/predict.py
+
+## Generate EDA reports
+.PHONY: eda
+eda:
+	$(PYTHON_INTERPRETER) real_estate_ml/eda.py
 
 ## Run complete pipeline
 .PHONY: pipeline
-pipeline: data train predict
+pipeline: data eda train predict
 
 #################################################################################
 # DEVELOPMENT COMMANDS                                                         #
